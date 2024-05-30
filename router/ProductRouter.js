@@ -2,7 +2,7 @@ const express = require("express")
 const Product = require("../models/ProductModel")
 const ProductRouter = express.Router()
 
-module.exports = ProductRouter
+
 
 ProductRouter.route("/products").get(async(req,res)=>{
     try {
@@ -66,3 +66,5 @@ ProductRouter.route("/products").put(async(req,res)=>{
         res.status(404).send({status : false, message : error.message})
     }
 })
+
+module.exports = ProductRouter

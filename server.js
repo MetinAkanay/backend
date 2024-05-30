@@ -2,9 +2,13 @@
 const express  = require("express")
 const mongoose = require("mongoose")
 const dotenv = require("dotenv").config()
+const cors = require("cors")
 
 const Product = require("./models/ProductModel")
+const ProductRouter = require("./router/ProductRouter")
 const UserRouter = require("./router/UserRouter")
+
+const authMiddleware = require("./middleware/auth")
 
 mongoose.connect("mongodb+srv://metin:metin@cluster1.rtue60d.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1")
 .then(() => console.log("MongoDB Connected"))
@@ -12,10 +16,18 @@ mongoose.connect("mongodb+srv://metin:metin@cluster1.rtue60d.mongodb.net/?retryW
 
 
 const app = express()
+
 app.use(express.json())
 
-app.use("/product", Product)
+app.use(cors({
+    origin : "*"
+}))
+
+app.use("/product", ProductRouter)
 app.use("/user", UserRouter)
+
+// MIDDLEWARES
+app.use(authMiddleware)
 
 app.listen(9000,()=>{
     console.log('Merhaba Ben Çalıştım')
