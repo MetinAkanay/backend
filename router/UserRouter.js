@@ -4,23 +4,14 @@ const UserRouter = express.Router()
 const jwt = require("jsonwebtoken")
 const tokenControl = require("../middleware/auth")
 
-UserRouter.post('/register', async (req, res) => {
+UserRouter.post("/register",async(req, res)=>{
     try {
-      const { userName, email, password } = req.body;
-      if (!userName || !email || !password) {
-        return res.status(400).json({ message: "All fields are required" });
-      }
-      const newUser = new User({ userName, email, password });
-      await newUser.save();
-      res.status(201).json({ message: "User registered successfully!" });
+        let savedUser = await User.create(req.body)
+        res.status(200).send({status: true, message: `${savedUser.userName} Created! `})
     } catch (error) {
-      if (error.code === 11000) {
-        // Duplicate key error
-        return res.status(400).json({ message: "Username or email already exists" });
-      }
-      res.status(500).json({ message: "Server Error" });
+        res.status(404).send({status: false, message: error.message})
     }
-  });
+})
 
 
 
