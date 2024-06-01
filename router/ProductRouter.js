@@ -36,7 +36,7 @@ ProductRouter.route("/product/:id").get(async(req,res)=>{
         res.status(200).send({status : 200, message: "Product Get", data: product})
     } catch (error) {
         res.status(404).send({status : false, message : error.message})
-    }
+    } 
 })
 
 ProductRouter.route("/products").delete(async(req,res)=>{
